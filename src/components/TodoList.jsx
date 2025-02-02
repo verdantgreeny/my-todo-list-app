@@ -44,7 +44,7 @@ const TodoList = ({ todos, setTodos }) => {
             <StTodoText> {todo.todoText}</StTodoText>
             <div>
               <Button
-                color="orange"
+                $color="orange"
                 type="button"
                 onClick={() => onDeleteHandler(todo.id)}
               >
@@ -67,7 +67,7 @@ const TodoList = ({ todos, setTodos }) => {
             <StTodoText> {todo.todoText}</StTodoText>
             <div>
               <Button
-                color="orange"
+                $color="orange"
                 type="button"
                 onClick={() => onDeleteHandler(todo.id)}
               >

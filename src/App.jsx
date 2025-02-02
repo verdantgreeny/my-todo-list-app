@@ -2,24 +2,22 @@ import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import styled from "styled-components";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  // state init
-  const initialState = [
-    {
-      id: 1,
-      title: "react",
-      todoText: "react를 배워봅시다.",
-    },
-    {
-      id: 2,
-      title: "redux",
-      todoText: "redux를 배워봅시다.",
-    },
-  ];
+  const [todos, setTodos] = useState(createInitialTodos);
 
-  const [todos, setTodos] = useState(initialState);
+  useEffect(
+    function () {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    },
+    [todos]
+  );
+
+  function createInitialTodos() {
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    return storedTodos || [];
+  }
 
   return (
     <>
@@ -27,7 +25,7 @@ function App() {
         <StH1> My TODO List</StH1>
       </header>
       <StMain>
-        <TodoForm todos={todos} setTodos={setTodos} />
+        <TodoForm setTodos={setTodos} />
         <TodoList todos={todos} setTodos={setTodos} />
       </StMain>
     </>
