@@ -1,34 +1,32 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/slices/todosSlice";
 import Button from "./Button";
 import Input from "./Input";
 
-const TodoForm = () => {
+const TodoForm = ({ todos, setTodos }) => {
   const [title, setTitle] = useState("");
   const [todoText, setTodoText] = useState("");
-  const dispatch = useDispatch();
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (!title || !todoText) {
+    if (!title.trim() || !todoText.trim()) {
       alert("제목 및 내용을 입력해주세요");
       return;
     }
 
-    dispatch(
-      addTodo({
+    setTodos([
+      ...todos,
+      {
         id: new Date().getTime(),
         title: title,
         todoText: todoText,
-      })
-    );
+      },
+    ]);
     setTitle("");
     setTodoText("");
   };
 
   return (
-    <form style={{whiteSpace: "nowrap",}} onSubmit={onSubmitHandler}>
+    <form style={{ whiteSpace: "nowrap" }} onSubmit={onSubmitHandler}>
       <Input
         htmlFor="inputTitle"
         type="text"

@@ -1,19 +1,26 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { deleteTodo, completeTodo } from "../redux/slices/todosSlice";
 import Button from "./Button";
 
-const TodoList = () => {
-  const todos = useSelector((state) => state.todos);
-  const dispatch = useDispatch();
+const TodoList = ({ todos, setTodos }) => {
   // handlers
   const onDeleteHandler = (id) => {
-    dispatch(deleteTodo({ id }));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const onCompleteHandler = (id) => {
-    dispatch(completeTodo({ id }));
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            isDone: !todo.isDone,
+          };
+        } else {
+          return todo;
+        }
+      })
+    );
   };
 
   // todoList, doneList
@@ -27,9 +34,6 @@ const TodoList = () => {
     }
   });
 
-  console.log("todo",todoList)
-  console.log("done",doneList)
-
   return (
     <>
       <StH2> Working </StH2>
@@ -39,7 +43,11 @@ const TodoList = () => {
             <StTitle>{todo.title}</StTitle>
             <StTodoText> {todo.todoText}</StTodoText>
             <div>
-              <Button color="orange" type="button" onClick={() => onDeleteHandler(todo.id)}>
+              <Button
+                color="orange"
+                type="button"
+                onClick={() => onDeleteHandler(todo.id)}
+              >
                 {" "}
                 삭제{" "}
               </Button>
@@ -58,7 +66,11 @@ const TodoList = () => {
             <StTitle>{todo.title}</StTitle>
             <StTodoText> {todo.todoText}</StTodoText>
             <div>
-              <Button color="orange" type="button" onClick={() => onDeleteHandler(todo.id)}>
+              <Button
+                color="orange"
+                type="button"
+                onClick={() => onDeleteHandler(todo.id)}
+              >
                 {" "}
                 삭제{" "}
               </Button>
